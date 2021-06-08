@@ -26,5 +26,3 @@ Tag.init(
 );
 
 module.exports = Tag;
-
-// Association: Tag belongs to many Product models
