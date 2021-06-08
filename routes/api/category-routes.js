@@ -23,7 +23,6 @@ router.get('/', (req, res) => {
   .catch(err => {
     res.status(500).json({ message: 'Request Failed' });
   })
-  // be sure to include its associated Products
 });
 
   // find one category by its `id` value
@@ -45,21 +44,42 @@ router.get('/:id', (req, res) => {
   })
   .then(categoryData => res.json(categoryData))
   .catch(err => {
-    res.status(404).json({ message: 'Category Not Found' });
+    res.status(500).json({ message: 'Category Not Found' });
   });
-  // be sure to include its associated Products
 });
 
+// create a new category
 router.post('/', (req, res) => {
-  // create a new category
+  Category.create({
+    category_name: req.body.category_name
+  })
+  .then(categoryData => res.json(categoryData))
+  .catch(err => {
+    res.status(500).json({ messasge: 'Failed to Add Category'});
+  });
 });
 
+// update a category by its `id` value
 router.put('/:id', (req, res) => {
-  // update a category by its `id` value
+  Category.update(
+    {category_name: req.body.category_name},
+    {where: {id: req.params.id}}
+  )
+  .then(categoryData => res.json(categoryData))
+  .catch(err => {
+    res.status(500).json({ message: 'Failed to Update Category'});
+  })
 });
 
+// delete a category by its `id` value
 router.delete('/:id', (req, res) => {
-  // delete a category by its `id` value
+  Category.destroy(
+    {where: {id: req.params.id}}
+  )
+  .then(categoryData => res.json(categoryData))
+  .catch(err => {
+    res.status(500).json({ message: 'Failed to Delete Category'});
+  })
 });
 
 module.exports = router;
